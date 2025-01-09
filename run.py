@@ -173,7 +173,7 @@ def main():
 
     # # U039KPWCFEF = Luke
     # # U05GCUP9PQ9 = Rick
-    send_interactive_message("U05GCUP9PQ9")
+    send_interactive_message("U039KPWCFEF")
 
 
 if __name__ == "__main__":

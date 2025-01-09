@@ -59,7 +59,7 @@ def handle_interactivity():
         }
 
         # Log response to a file
-        with open("responses.log", "a") as log_file:
+        with open("/tmp/responses.log", "a") as log_file:
             log_file.write(json.dumps(response, indent=4) + "\n")
 
         # Upload to JSONBin.io
