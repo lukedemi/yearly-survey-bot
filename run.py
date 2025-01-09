@@ -1,4 +1,5 @@
 import os
+import time
 from dotenv import load_dotenv
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -44,14 +45,13 @@ def send_interactive_message(user_id):
     try:
         response = client.chat_postMessage(
             channel=user_id,
-            text="Workplace check-in",
+            text="Your feedback is valuable!",
             blocks=[
                 {
                     "type": "section",
                     "text": {
-                        "type": "plain_text",
-                        "text": ":wave: Hey!\n\nThis year we hacked up this little Slack app to do the survey (Polly would have cost $974/month).",
-                        "emoji": True,
+                        "type": "mrkdwn",
+                        "text": ":wave: Hey!\n\nThis year we hacked up this little Slack app to do the survey (Polly would have cost thousands!).",
                     },
                 },
                 {
@@ -116,10 +116,13 @@ def send_interactive_message(user_id):
                         "text": "What are some topics/themes you'd want to hear talks about this year?",
                         "emoji": True,
                     },
-                    "element": {"type": "plain_text_input", "multiline": True},
+                    "element": {
+                        "type": "plain_text_input",
+                        "multiline": True,
+                        "action_id": "topics",
+                    },
                     "optional": True,
                 },
-                {"type": "divider"},
                 {
                     "type": "input",
                     "label": {
@@ -127,7 +130,11 @@ def send_interactive_message(user_id):
                         "text": "Were there any talks/topics from 2024 that particularly resonated with you?",
                         "emoji": True,
                     },
-                    "element": {"type": "plain_text_input", "multiline": True},
+                    "element": {
+                        "type": "plain_text_input",
+                        "multiline": True,
+                        "action_id": "2024",
+                    },
                     "optional": True,
                 },
                 {
@@ -137,8 +144,19 @@ def send_interactive_message(user_id):
                         "text": "Anything else you'd like to share?",
                         "emoji": True,
                     },
-                    "element": {"type": "plain_text_input", "multiline": True},
+                    "element": {
+                        "type": "plain_text_input",
+                        "multiline": True,
+                        "action_id": "other",
+                    },
                     "optional": True,
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": "If you get a an error ping <@U039KPWCFEF> to fix the server",
+                    },
                 },
                 {
                     "type": "actions",
@@ -164,16 +182,74 @@ def send_interactive_message(user_id):
         return None
 
 
+def split_users_to_files():
+    users = get_all_users()
+
+    file_handles = [open(f"user_lists/users_{i:02}.txt", "w") for i in range(1, 11)]
+
+    for idx, user in enumerate(users):
+        file_index = idx % 10  # Determine file number (0-9 for 10 files)
+        file_handles[file_index].write(user["id"] + "\n")
+
+    # Close all files
+    for handle in file_handles:
+        handle.close()
+
+
+# Function to read already messaged user IDs from a file
+def load_messaged_users(file_path):
+    if os.path.exists(file_path):
+        with open(file_path, "r") as f:
+            return set(f.read().splitlines())
+    return set()
+
+
+# Function to save successfully messaged user IDs to a file
+def save_messaged_user(file_path, user_id):
+    with open(file_path, "a") as f:
+        f.write(user_id + "\n")
+
+
 def main():
-    # users = get_all_users()
-
     # for user in users:
-    #     print(user)
-    #     # user_id = user['id']
+    #     user_id = user["id"]
+    #     name = user["name"]
+    #     print(user_id, name)
 
-    # # U039KPWCFEF = Luke
-    # # U05GCUP9PQ9 = Rick
-    send_interactive_message("U039KPWCFEF")
+    # send_interactive_message("U051D560A2F")  # Luke W
+    # send_interactive_message("U05GCUP9PQ9")  # Rick
+    # send_interactive_message("U04T63QT4TC")  # cody
+    # send_interactive_message("U04V579R2")  # jdboyd
+    # send_interactive_message("U01B66ZNCQK")  # tims
+    # send_interactive_message("U045QC8DM")  # zach
+    # response = send_interactive_message("U039KPWCFEF")  # Luke D
+    # print(response["ok"])
+
+    input_file = (
+        "user_lists/users_test.txt"  # Replace with the file you want to process
+    )
+    messaged_users_file = "messaged_users.txt"
+
+    # Load the list of already messaged users
+    messaged_users = load_messaged_users(messaged_users_file)
+
+    # Process each user in the input file
+    with open(input_file, "r") as f:
+        for user_id in f:
+            user_id = user_id.strip()
+            if user_id in messaged_users:
+                print(f"Skipping {user_id}, already messaged.")
+                continue
+
+            # Send an interactive message
+            time.sleep(1.5)
+            response = send_interactive_message(user_id)
+            if response["ok"]:
+                print(f"Message sent to {user_id}.")
+                save_messaged_user(messaged_users_file, user_id)
+                messaged_users.add(user_id)  # Update in-memory set
+            else:
+                print(f"Failed to send message to {user_id}.")
 
 
 if __name__ == "__main__":

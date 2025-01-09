@@ -1,7 +1,11 @@
 FROM python:3.12-slim
 
+ENV PYTHONUNBUFFERED=1
+
 # Set the working directory inside the container
 WORKDIR /app
+
+RUN mkdir -p /app/logs
 
 # Copy the current directory (your repository) into the container
 COPY . .

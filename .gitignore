@@ -1,2 +1,4 @@
 .env
 venv/
+user_lists
+messaged_users.txt
