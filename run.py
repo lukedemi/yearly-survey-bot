@@ -166,18 +166,14 @@ def send_interactive_message(user_id):
 
 def main():
     # users = get_all_users()
-    # print(f"Found {len(users)} users to message.")
-
-    # Customize your message
-    # message = "Hey Rick! This is a survey bot. Please complete the following survey: [link-to-survey]"
 
     # for user in users:
     #     print(user)
     #     # user_id = user['id']
 
-    # U039KPWCFEF = Luke
-    message = "Hey Rick! This is a survey bot. Please complete the following survey: [link-to-survey]"
-    send_interactive_message("U039KPWCFEF")
+    # # U039KPWCFEF = Luke
+    # # U05GCUP9PQ9 = Rick
+    send_interactive_message("U05GCUP9PQ9")
 
 
 if __name__ == "__main__":

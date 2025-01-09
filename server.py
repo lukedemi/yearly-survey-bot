@@ -17,6 +17,11 @@ if not JSONBIN_API_KEY:
 app = Flask(__name__)
 
 
+@app.route("/")
+def hello():
+    return "Hello, World!"
+
+
 @app.route("/slack/events", methods=["POST"])
 def handle_interactivity():
     try:
@@ -95,4 +100,4 @@ def upload_to_jsonbin(data):
 
 
 if __name__ == "__main__":
-    app.run(port=9340)
+    app.run(host="0.0.0.0", port=9340)
