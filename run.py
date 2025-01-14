@@ -62,7 +62,7 @@ def send_interactive_message(user_id):
                             {
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "Participating in a hackathon",
+                                    "text": "Participating in a Hackathon 🛠️",
                                     "emoji": True,
                                 },
                                 "value": "value-0",
@@ -70,7 +70,7 @@ def send_interactive_message(user_id):
                             {
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "Giving a talk (we are always looking for speakers and will provide coaching and prep help!)",
+                                    "text": "Giving a talk 🎤 (Coaching and prep help provided!)",
                                     "emoji": True,
                                 },
                                 "value": "value-1",
@@ -78,7 +78,7 @@ def send_interactive_message(user_id):
                             {
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "Volunteering to help on the day of events (greeting, AV, moving chairs)",
+                                    "text": "Volunteering to Help 🙋 (greeting at events, AV, moving chairs)",
                                     "emoji": True,
                                 },
                                 "value": "value-2",
@@ -86,7 +86,7 @@ def send_interactive_message(user_id):
                             {
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "Being on-call as a backup speaker in case someone drops out",
+                                    "text": "Being on-call as a backup speaker 🔄 (In case someone drops out)",
                                     "emoji": True,
                                 },
                                 "value": "value-3",
@@ -94,7 +94,7 @@ def send_interactive_message(user_id):
                             {
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "Creating or curating content (like slides, graphics, or notes) for community use",
+                                    "text": "Creating or curating content 🎨 (like slides, graphics, or notes) for community use",
                                     "emoji": True,
                                 },
                                 "value": "value-4",
@@ -104,7 +104,7 @@ def send_interactive_message(user_id):
                     },
                     "label": {
                         "type": "plain_text",
-                        "text": "Which of the following could you be interested in this year?",
+                        "text": "Check ✅ all the following could you be interested in this year:",
                         "emoji": True,
                     },
                     "optional": True,
@@ -118,7 +118,6 @@ def send_interactive_message(user_id):
                     },
                     "element": {
                         "type": "plain_text_input",
-                        "multiline": True,
                         "action_id": "topics",
                     },
                     "optional": True,
@@ -132,7 +131,6 @@ def send_interactive_message(user_id):
                     },
                     "element": {
                         "type": "plain_text_input",
-                        "multiline": True,
                         "action_id": "2024",
                     },
                     "optional": True,
@@ -141,12 +139,11 @@ def send_interactive_message(user_id):
                     "type": "input",
                     "label": {
                         "type": "plain_text",
-                        "text": "Anything else you'd like to share?",
+                        "text": "Do you have any feedback, suggestions, or things you felt didn’t work well in 2024?",
                         "emoji": True,
                     },
                     "element": {
                         "type": "plain_text_input",
-                        "multiline": True,
                         "action_id": "other",
                     },
                     "optional": True,
@@ -223,11 +220,10 @@ def main():
     # send_interactive_message("U01B66ZNCQK")  # tims
     # send_interactive_message("U045QC8DM")  # zach
     # response = send_interactive_message("U039KPWCFEF")  # Luke D
+    # return
     # print(response["ok"])
 
-    input_file = (
-        "user_lists/users_test.txt"  # Replace with the file you want to process
-    )
+    input_file = "user_lists/users_05.txt"  # Replace with the file you want to process
     messaged_users_file = "messaged_users.txt"
 
     # Load the list of already messaged users
